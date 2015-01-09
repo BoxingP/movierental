@@ -1,28 +1,37 @@
 package com.twu.refactoring;
 
 public class Movie {
-	public static final int  CHILDRENS = 2;
-	public static final int  REGULAR = 0;
-	public static final int  NEW_RELEASE = 1;
+    private String title;
+    private MovieCategory priceCode;
 
-	private String title;
-	private int priceCode;
+    public Movie(String title, MovieCategory priceCode) {
+        this.title = title;
+        this.priceCode = priceCode;
+    }
 
-	public Movie(String title, int priceCode) {
-		this.title = title;
-		this.priceCode = priceCode;
-	}
+    public void setPriceCode(MovieCategory arg) {
+        priceCode = arg;
+    }
 
-	public int getPriceCode() {
-		return priceCode;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setPriceCode(int arg) {
-    	priceCode = arg;
-	}
+    public double getAmount(int daysRented) {
+        switch (priceCode) {
+            case REGULAR:
+                return ((daysRented > 2) ? (daysRented - 2) * 1.5 : 0) + 2;
+            case NEW_RELEASE:
+                return daysRented * 3;
+            case CHILDREN:
+                return ((daysRented > 3) ? (daysRented - 3) * 1.5 : 0) + 1.5;
+        }
 
-	public String getTitle () {
-		return title;
-	}
+        return 0;
+    }
+
+    public int getFrequentRenterPoints(int daysRented) {
+        return priceCode == MovieCategory.NEW_RELEASE && daysRented > 1? 2:1;
+    }
 }
 
